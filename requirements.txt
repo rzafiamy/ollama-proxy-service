@@ -1,0 +1,4 @@
+Flask
+Flask-Limiter
+requests
+flask_cors
