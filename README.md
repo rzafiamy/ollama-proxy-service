@@ -1,7 +1,16 @@
 # Ollama Proxy Service
-======================
 
-Protecting ollama with API key using Flask, Flask-Limiter, and Flask-Cors.
+
+### 🚨 Secure Your Data with Ease!
+
+This repository showcases how to protect your Ollama instance using Flask, Flask-Limiter, and Flask-Cors. With this setup, you can ensure robust API key security and safeguard your valuable data.
+
+### Features
+
+    🔒 API key protection with Flask
+    🕵️‍♀️ Rate limiting using Flask-Limiter
+    💻 Cross-origin resource sharing with Flask-Cors
+
 
 ### Table of Contents
 
@@ -35,7 +44,7 @@ pip install -r requirements.txt
 To start the service, simply run:
 
 ```bash
-python app.py
+python proxy.py
 ```
 
 This will start the proxy service on port 11433. You can access it by visiting `http://localhost:11433` in your browser.
@@ -65,3 +74,10 @@ To authenticate with an API key, you need to include the `Authorization` header 
 
 *   **Error streaming response**: Check if the target URL is responding correctly and if there are any network issues.
 *   **Invalid API key**: Make sure to set the `API_KEY` variable in the `config.py` file to your desired API key.
+
+
+## Thanks
+
+Special Thanks
+
+This project wouldn't have been possible without the inspiration and guidance from @rzafiamy! His expertise and kindness made a huge difference, and I'm grateful for his contributions. 🙏💖
