@@ -6,9 +6,15 @@ This repository showcases how to protect your Ollama instance using Flask, Flask
 
 ### Features
 
-    🔒 API key protection with Flask
-    🕵️‍♀️ Rate limiting using Flask-Limiter
-    💻 Cross-origin resource sharing with Flask-Cors
+- **🔑 API Key Protection with Flask**: Ensure only authorized access by requiring a valid API key for each request.
+- **🚦 Rate Limiting with Flask-Limiter**: Prevent abuse and ensure fair usage by limiting the number of API requests from a user within a specific time frame.
+- **🌍 Cross-Origin Resource Sharing (CORS) with Flask-Cors**: Enable your API to be called safely from different domains, facilitating modern web application interactions.
+- **📊 Systematic Logging**: Capture detailed operational data for debugging, monitoring, and security analysis.
+- **🔄 Systemd Integration for Service Management**: Manage your API service effectively with capabilities like automatic restarts and dependency management.
+- **🔒 Environment and Dependency Isolation with Virtual Environments**: Run your application within a controlled environment to prevent conflicts and ensure consistency.
+- **⚙️ Automated Setup and Deployment Scripts**: Simplify the setup process and manage your application more efficiently with automation scripts.
+- **🛡️ Secure Configuration Management**: Protect sensitive configuration settings from exposure and manage them securely.
+
 
 ### Table of Contents
 
