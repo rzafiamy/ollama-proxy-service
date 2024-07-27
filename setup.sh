@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Configuration defaults
-USERNAME=${1:-ollama_user}
-GROUP=${2:-ollama_group}
-WORKING_DIRECTORY=${3:-$(pwd)}
-VENV_PATH=${4:-$(pwd)/.pyenv}
+USERNAME=${2:-ollama_user}
+GROUP=${3:-ollama_group}
+WORKING_DIRECTORY=${4:-$(pwd)}
+VENV_PATH=${5:-$(pwd)/.pyenv}
 
 # Functions
 create_user() {
@@ -38,7 +38,7 @@ uninstall_service() {
 }
 
 # Main execution flow
-case "$5" in
+case "$1" in
     install)
         install_service
         ;;
@@ -46,7 +46,7 @@ case "$5" in
         uninstall_service
         ;;
     *)
-        echo "Usage: $0 [username] [group] [working directory] [venv path] {install|uninstall}"
+        echo "Usage: $0 {install|uninstall} [username] [group] [working directory] [venv path]"
         exit 1
         ;;
 esac
