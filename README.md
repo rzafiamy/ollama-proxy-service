@@ -41,12 +41,17 @@ To install this service, follow these steps:
     ```
 
 2. Install the required dependencies:
+
+For this, you can run your script once as below:
+
     ```bash
-    pip install -r requirements.txt
+    chmod +x run.sh
+    ./run.sh
     ```
 
 3. Set up the service using the setup script:
     ```bash
+    chmod +x setup.sh
     ./setup.sh install
     ```
 

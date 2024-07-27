@@ -8,7 +8,7 @@ if [ ! -d "$VENV_PATH" ]; then
     echo "Creating virtual environment..."
     python3 -m venv $VENV_PATH
     source $VENV_PATH/bin/activate
-    pip install flask
+    pip install -r requirements.txt
 else
     echo "Activating existing virtual environment..."
     source $VENV_PATH/bin/activate
