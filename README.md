@@ -30,7 +30,7 @@ To install this service, follow these steps:
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/ollama-proxy-service.git
+    git clone https://github.com/rzafiamy/ollama-proxy-service
     cd ollama-proxy-service
     ```
 
