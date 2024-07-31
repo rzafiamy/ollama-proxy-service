@@ -87,6 +87,13 @@ API_KEY = "your_api_key_here"
 
 Ensure that only requests with a valid API key can access Ollama.
 
+## Update ollama and keep environment
+
+```bash
+chmod +x ollama_update.sh
+bash ollama_update.sh
+```
+
 ## API Documentation
 -------------------
 
