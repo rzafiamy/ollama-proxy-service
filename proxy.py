@@ -14,30 +14,36 @@ limiter = Limiter(
     default_limits=["100 per hour"]
 )
 
-
 def require_api_key(view_function):
     def decorated_function(*args, **kwargs):
-        # Extract the token from the Authorization header
         auth_header = request.headers.get('Authorization')
-        print(request.headers)
         if not auth_header or not auth_header.startswith('Bearer '):
-            abort(401)  # Unauthorized access if no or improperly formatted token
-        token = auth_header[7:]  # Remove 'Bearer ' prefix to isolate the token
+            abort(401)
+        token = auth_header[7:]
         if token != config.API_KEY:
-            abort(401)  # Unauthorized access if the token does not match
+            abort(401)
         return view_function(*args, **kwargs)
     return decorated_function
 
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>', methods=['GET', 'POST', 'PUT', 'DELETE'])
+@app.route('/proxy/<provider>/<path:path>', methods=['GET', 'POST', 'PUT', 'DELETE'])
 @require_api_key
 @limiter.limit("10 per minute")
-def proxy(path):
-    global TARGET_URL
-    url = f"{config.TARGET_URL}/{path}"
-    req = requests.Request(request.method, url, headers={key: value for (key, value) in request.headers if key != 'Host'},
-                           data=request.get_data(), params=request.args, cookies=request.cookies)
+def proxy(provider, path):
+    """Proxy requests to different LLM providers."""
+    if provider not in config.LLM_PROVIDERS:
+        return jsonify({"error": "Invalid provider"}), 400
+
+    provider_info = config.LLM_PROVIDERS[provider]
+    url = f"{provider_info['base_url']}/{path}"
+
+    headers = {key: value for key, value in request.headers if key.lower() != 'host'}
+    if provider_info["api_key"]:
+        headers["Authorization"] = f"Bearer {provider_info['api_key']}"  # Add API key if required
+
+    req = requests.Request(request.method, url, headers=headers, 
+                           json=request.json, params=request.args, data=request.get_data())
     prepared_req = req.prepare()
+    
     session = requests.Session()
     resp = session.send(prepared_req, stream=True)
 
@@ -46,14 +52,13 @@ def proxy(path):
             for chunk in resp.iter_content(chunk_size=4096):
                 yield chunk
         except Exception as e:
-            app.logger.error("Error streaming response: %s", e)
+            app.logger.error(f"Error streaming response: {e}")
             raise e
         finally:
             resp.close()
 
     excluded_headers = ['content-encoding', 'content-length', 'transfer-encoding', 'connection']
-    headers = [(name, value) for (name, value) in resp.headers.items()
-               if name.lower() not in excluded_headers]
+    headers = [(name, value) for name, value in resp.headers.items() if name.lower() not in excluded_headers]
 
     return Response(generate(), status=resp.status_code, headers=headers)
 
