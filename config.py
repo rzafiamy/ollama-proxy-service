@@ -2,6 +2,9 @@
 
 API_KEY = "your_api_key_for_proxy"
 
+DEFAULT_RATE_LIMIT = "1000 per hour"
+RATE_LIMIT = "100 per minute"
+
 LLM_PROVIDERS = {
     "openai": {
         "api_key": "your_openai_api_key",

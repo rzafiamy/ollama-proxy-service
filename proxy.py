@@ -11,7 +11,7 @@ CORS(app)
 limiter = Limiter(
     key_func=get_remote_address,
     app=app,
-    default_limits=["100 per hour"]
+    default_limits=[config.DEFAULT_RATE_LIMIT]
 )
 
 def require_api_key(view_function):
@@ -27,7 +27,7 @@ def require_api_key(view_function):
 
 @app.route('/proxy/<provider>/<path:path>', methods=['GET', 'POST', 'PUT', 'DELETE'])
 @require_api_key
-@limiter.limit("10 per minute")
+@limiter.limit(config.RATE_LIMIT)
 def proxy(provider, path):
     """Proxy requests to different LLM providers."""
     if provider not in config.LLM_PROVIDERS:
