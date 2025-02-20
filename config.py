@@ -14,12 +14,12 @@ API_KEY = os.getenv("PROXY_API_KEY")
 LLM_PROVIDERS = {
     "openai": {
         "api_key": os.getenv("OPENAI_API_KEY"),
-        "base_url": "https://api.openai.com/v1",
+        "base_url": "https://api.openai.com",
         "headers": {"Content-Type": "application/json"}
     },
     "groq": {
         "api_key": os.getenv("GROQ_API_KEY"),
-        "base_url": "https://api.groq.com/openai/v1",
+        "base_url": "https://api.groq.com/openai",
         "headers": {"Content-Type": "application/json"}
     },
     "ollama": {
@@ -29,7 +29,7 @@ LLM_PROVIDERS = {
     },
     "cerebras": {
         "api_key": os.getenv("CEREBRAS_API_KEY"),
-        "base_url": "https://api.cerebras.ai/v1",
+        "base_url": "https://api.cerebras.ai",
         "headers": {"Content-Type": "application/json"}
     },
     "deepseek": {
@@ -39,7 +39,7 @@ LLM_PROVIDERS = {
     },
     "openrouter": {
         "api_key": os.getenv("OPENROUTER_API_KEY"),
-        "base_url": "https://openrouter.ai/api/v1",
+        "base_url": "https://openrouter.ai/api",
         "headers": {"Content-Type": "application/json"}
     }
 }

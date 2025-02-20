@@ -1,4 +1,3 @@
-from flask import Flask, request, jsonify, abort, Response
 import requests
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
@@ -11,7 +10,7 @@ CORS(app)
 limiter = Limiter(
     key_func=get_remote_address,
     app=app,
-    default_limits=[config.DEFAULT_RATE_LIMIT]
+    default_limits=[config.RATE_LIMIT]
 )
 
 def require_api_key(view_function):
@@ -25,7 +24,7 @@ def require_api_key(view_function):
         return view_function(*args, **kwargs)
     return decorated_function
 
-@app.route('/proxy/<provider>/<path:path>', methods=['GET', 'POST', 'PUT', 'DELETE'])
+@app.route('/proxy/<provider>/<path:path>', methods=['GET', 'POST'])
 @require_api_key
 @limiter.limit(config.RATE_LIMIT)
 def proxy(provider, path):
@@ -37,13 +36,19 @@ def proxy(provider, path):
     url = f"{provider_info['base_url']}/{path}"
 
     headers = {key: value for key, value in request.headers if key.lower() != 'host'}
+    print(headers)
     if provider_info["api_key"]:
         headers["Authorization"] = f"Bearer {provider_info['api_key']}"  # Add API key if required
 
-    req = requests.Request(request.method, url, headers=headers, 
-                           json=request.json, params=request.args, data=request.get_data())
+
+    # ✅ Ensure no body is sent for GET requests
+    data = request.get_data() if request.method in ["POST", "PUT"] else None
+    req = requests.Request(
+        request.method, url, headers=headers, json=request.json if request.method in ["POST", "PUT"] else None,
+        params=request.args, data=data
+    )
+
     prepared_req = req.prepare()
-    
     session = requests.Session()
     resp = session.send(prepared_req, stream=True)
 
