@@ -69,4 +69,4 @@ def proxy(provider, path):
     return Response(generate(), status=resp.status_code, headers=headers)
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=11433, debug=False)
+    app.run(host="0.0.0.0", port=config.DEFAULT_PORT, debug=False)

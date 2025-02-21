@@ -98,7 +98,56 @@ DEEPSEEK_API_KEY="your_deepseek_api_key"
 OPENROUTER_API_KEY="your_openrouter_api_key"
 ```
 
+## Add more LLM provider 
+-------------------
+To add more LLM providers, you need to edit the `config.py` file. You need to add a new line for each LLM provider and specify the corresponding API key in `.env` file:
+
+```bash
+LLM_PROVIDERS = {
+    "openai": {
+        "api_key": os.getenv("OPENAI_API_KEY"),
+        "base_url": "https://api.openai.com",
+        "headers": {"Content-Type": "application/json"}
+    },
+    "groq": {
+        "api_key": os.getenv("GROQ_API_KEY"),
+        "base_url": "https://api.groq.com/openai",
+        "headers": {"Content-Type": "application/json"}
+    },
+    "ollama": {
+        "api_key": None,  # Ollama might not require an API key
+        "base_url": "http://localhost:11434",
+        "headers": {"Content-Type": "application/json"}
+    },
+    "cerebras": {
+        "api_key": os.getenv("CEREBRAS_API_KEY"),
+        "base_url": "https://api.cerebras.ai",
+        "headers": {"Content-Type": "application/json"}
+    },
+    "deepseek": {
+        "api_key": os.getenv("DEEPSEEK_API_KEY"),
+        "base_url": "https://api.deepseek.com",
+        "headers": {"Content-Type": "application/json"}
+    },
+    "openrouter": {
+        "api_key": os.getenv("OPENROUTER_API_KEY"),
+        "base_url": "https://openrouter.ai/api",
+        "headers": {"Content-Type": "application/json"}
+    }
+}
+```
+
 Ensure that only requests with a valid API key can access Ollama.
+
+
+## Port Usage
+-------------------
+By default, the proxy service listens on port 11433. You can change this by modifying the `DEFAULT_PORT` in the `config.py` file.
+
+
+## Rate Limit
+-------------------
+The proxy service has a rate limit of 100 requests per minute. You can change this by modifying the `RATE_LIMIT` in the `config.py` file.
 
 ## Update ollama and keep environment
 
