@@ -19,7 +19,7 @@ create_user() {
 
 install_service() {
     create_user
-    sudo cp ollama-proxy-service.service.tpl /etc/systemd/system/ollama-proxy-service.service
+    sudo cp templates/ollama-proxy-service.service.tpl /etc/systemd/system/ollama-proxy-service.service
     sudo sed -i "s|{{USERNAME}}|$USERNAME|g" /etc/systemd/system/ollama-proxy-service.service
     sudo sed -i "s|{{GROUP}}|$GROUP|g" /etc/systemd/system/ollama-proxy-service.service
     sudo sed -i "s|{{WORKING_DIRECTORY}}|$WORKING_DIRECTORY|g" /etc/systemd/system/ollama-proxy-service.service
