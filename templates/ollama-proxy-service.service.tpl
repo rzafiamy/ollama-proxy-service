@@ -8,11 +8,8 @@ Group={{GROUP}}
 WorkingDirectory={{WORKING_DIRECTORY}}
 Environment="PATH={{VENV_PATH}}/bin"
 ExecStart={{WORKING_DIRECTORY}}/tools/run.sh
-
-# Log configuration
-StandardOutput=file:/var/log/ollama_proxy_app.log
-StandardError=file:/var/log/ollama_proxy_app_error.log
-
+StandardOutput=append:/var/log/ollama_proxy_app.log
+StandardError=append:/var/log/ollama_proxy_app_error.log
 Restart=always
 
 [Install]
