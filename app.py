@@ -83,6 +83,6 @@ def proxy(provider, path):
 
     return Response(generate(), status=resp.status_code, headers=headers)
 
-if __name__ == '__main__':
-    app.logger.info("Starting Flask app...")
-    app.run(host="0.0.0.0", port=11433, debug=False)
+#if __name__ == '__main__':
+#    app.logger.info("Starting Flask app...")
+#    app.run(host="0.0.0.0", port=11433, debug=False)
