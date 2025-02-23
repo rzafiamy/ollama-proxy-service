@@ -4,6 +4,7 @@
 USERNAME=${2:-ollama_user}
 GROUP=${3:-ollama_group}
 WORKING_DIRECTORY=${4:-$(pwd)}
+PORT=${PORT:-11433}
 VENV_PATH=${5:-$(pwd)/.pyenv}
 
 # Functions
