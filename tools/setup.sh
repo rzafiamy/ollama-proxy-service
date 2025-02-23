@@ -27,6 +27,7 @@ install_service() {
     sudo sed -i "s|{{VENV_PATH}}|$VENV_PATH|g" /etc/systemd/system/ollama-proxy-service.service
     sudo systemctl daemon-reload
     sudo systemctl enable ollama-proxy-service.service
+    sudo systemctl start ollama-proxy-service.service
     echo "Service installed and enabled."
 }
 

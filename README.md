@@ -4,6 +4,8 @@
 
 This repository showcases how to protect your Ollama instance using Flask, Flask-Limiter, and Flask-Cors. With this setup, you can ensure robust API key security and safeguard your valuable data.
 
+This application uses GUNICORN as the WSGI server, providing a robust and scalable environment for running your Ollama service.
+
 ### Features
 
 - **🔑 API Key Protection with Flask**: Ensure only authorized access by requiring a valid API key for each request.
@@ -49,19 +51,47 @@ To install this service, follow these steps:
     ./tools/run.sh
     ```
 
-3. Set up the service using the setup script:
+    By default this will start a GUNICORN server on port 11433 with 4 workers after installing the dependencies. It is the eastest way to start the service for testing purposes.
+
+    This launcher supports different parameters:
+
     ```bash
-    chmod +x tools/setup.sh
-    ./tools/setup.sh install
+    ./tools/run.sh [VENV_PATH] [WORKING_DIRECTORY] PORT=XXXX WORKERS=XX
     ```
 
-4. Initialize the `.env` file:
+    - `VENV_PATH`: Path to your virtual environment.
+    - `WORKING_DIRECTORY`: Path to your working directory.
+    - `PORT`: Port number for the GUNICORN server.
+    - `WORKERS`: Number of workers for the GUNICORN server.
+
+3. Set up SYSTEMD service using the `setup.sh` script:
+    
+    ```bash
+    chmod +x tools/setup.sh
+    ./tools/setup.sh {install|uninstall} [USERNAME] [GROUP] [WORKING_DIRECTORY] [VENV_PATH] PORT=XXXX
+
+    ```
+
+    - `install`: Install the service.
+    - `uninstall`: Uninstall the service.
+    - `{USERNAME}`: The username under which the service will run.
+    - `{GROUP}`: The group under which the service will run.
+    - `{WORKING_DIRECTORY}`: The directory where your application files are located.
+    - `{VENV_PATH}`: The path to your virtual environment.
+    - `PORT`: The port number for the GUNICORN server (default is 11433).
+
+    This will create necessary user and group for the service, and configure the systemd service to manage the application.
+
+4. Initialize environment files:
 
     ```bash
     cp .env.example .env
+    cp config.example.yaml config.yaml
     ```
-
-    This will create necessary user and group for the service, and configure the systemd service to manage the application.
+   
+   - `.env.example`: A template for setting API keys environment variables.
+   - `config.example.yaml`: A template for setting configuration parameters and LLM providers.
+    
 
 ## Usage
 -----
@@ -142,6 +172,8 @@ Ensure that only requests with a valid API key can access Ollama.
 ## Port Usage
 -------------------
 By default, the proxy service listens on port 11433. You can change this by modifying the `default_port` in the `config.yaml` file.
+
+In addition to that, you may have to update this also in `run.sh` and `setup.sh`.
 
 
 ## Rate Limit

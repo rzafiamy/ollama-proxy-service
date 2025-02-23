@@ -6,7 +6,7 @@ After=network.target
 User={{USERNAME}}
 Group={{GROUP}}
 WorkingDirectory={{WORKING_DIRECTORY}}
-Environment="PATH={{VENV_PATH}}"
+Environment="PATH={{VENV_PATH}}/bin"
 ExecStart={{WORKING_DIRECTORY}}/tools/run.sh
 
 # Log configuration
