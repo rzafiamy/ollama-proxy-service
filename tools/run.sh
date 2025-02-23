@@ -20,9 +20,9 @@ echo "🚀 Activating virtual environment..."
 source "$VENV_PATH/bin/activate"
 
 # Ensure dependencies are installed
-echo "📦 Installing required packages..."
-pip install --upgrade pip
-pip install -r requirements.txt
+#echo "📦 Installing required packages..."
+#pip install --upgrade pip
+#pip install -r requirements.txt
 
 # Move to working directory
 cd "$WORKING_DIRECTORY" || exit

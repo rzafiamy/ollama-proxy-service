@@ -6,8 +6,8 @@ After=network.target
 User={{USERNAME}}
 Group={{GROUP}}
 WorkingDirectory={{WORKING_DIRECTORY}}
-Environment="PATH={{VENV_PATH}}"
-ExecStart={{VENV_PATH}}/bin/python {{WORKING_DIRECTORY}}/proxy.py
+Environment="PATH={{WORKING_DIRECTORY}}/tools/run.sh"
+ExecStart={{VENV_PATH}}/bin/
 
 # Log configuration
 StandardOutput=file:/var/log/ollama_proxy_app.log
