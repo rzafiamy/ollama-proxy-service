@@ -1,49 +1,36 @@
-# config.py
 import os
+import yaml
 from dotenv import load_dotenv
-
-LOG_LEVEL="debug"
-
-DEFAULT_PORT=11433
-
-DEFAULT_RATE_LIMIT = "1000 per hour"
-RATE_LIMIT = "100 per minute"
-
 
 # Load environment variables from .env
 load_dotenv()
 
+# Set configuration variables
 API_KEY = os.getenv("PROXY_API_KEY")
 
-LLM_PROVIDERS = {
-    "openai": {
-        "api_key": os.getenv("OPENAI_API_KEY"),
-        "base_url": "https://api.openai.com",
-        "headers": {"Content-Type": "application/json"}
-    },
-    "groq": {
-        "api_key": os.getenv("GROQ_API_KEY"),
-        "base_url": "https://api.groq.com/openai",
-        "headers": {"Content-Type": "application/json"}
-    },
-    "ollama": {
-        "api_key": None,  # Ollama might not require an API key
-        "base_url": "http://localhost:11434",
-        "headers": {"Content-Type": "application/json"}
-    },
-    "cerebras": {
-        "api_key": os.getenv("CEREBRAS_API_KEY"),
-        "base_url": "https://api.cerebras.ai",
-        "headers": {"Content-Type": "application/json"}
-    },
-    "deepseek": {
-        "api_key": os.getenv("DEEPSEEK_API_KEY"),
-        "base_url": "https://api.deepseek.com",
-        "headers": {"Content-Type": "application/json"}
-    },
-    "openrouter": {
-        "api_key": os.getenv("OPENROUTER_API_KEY"),
-        "base_url": "https://openrouter.ai/api",
-        "headers": {"Content-Type": "application/json"}
-    }
-}
+# Load configuration from config.yaml
+CONFIG_FILE = "config.yaml"
+
+if not os.path.exists(CONFIG_FILE):
+    raise FileNotFoundError(f"Configuration file {CONFIG_FILE} not found. Please create it from config.yaml.example.")
+
+with open(CONFIG_FILE, "r") as f:
+    config_data = yaml.safe_load(f)
+
+# Set configuration variables
+LOG_LEVEL = config_data.get("log_level", "debug")
+DEFAULT_PORT = config_data.get("default_port", 11433)
+DEFAULT_RATE_LIMIT = config_data.get("default_rate_limit", "1000 per hour")
+RATE_LIMIT = config_data.get("rate_limit", "100 per minute")
+
+
+# Load LLM Providers
+LLM_PROVIDERS = config_data.get("llm_providers", {})
+
+# Ensure API keys from environment variables override yaml values
+for provider, details in LLM_PROVIDERS.items():
+    env_api_key = os.getenv(f"{provider.upper()}_API_KEY")
+    if env_api_key:
+        details["api_key"] = env_api_key
+    else:
+        details["api_key"] = None

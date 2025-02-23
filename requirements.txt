@@ -3,3 +3,4 @@ Flask-Limiter
 requests
 flask_cors
 python-dotenv
+pyyaml
