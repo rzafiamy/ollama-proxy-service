@@ -2,6 +2,8 @@
 import os
 from dotenv import load_dotenv
 
+LOG_LEVEL="debug"
+
 DEFAULT_PORT=11433
 
 DEFAULT_RATE_LIMIT = "1000 per hour"
