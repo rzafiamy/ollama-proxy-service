@@ -7,7 +7,7 @@ User={{USERNAME}}
 Group={{GROUP}}
 WorkingDirectory={{WORKING_DIRECTORY}}
 Environment="PATH={{VENV_PATH}}"
-ExecStart={{VENV_PATH}}/bin/gunicorn -w 4 -b 0.0.0.0:{{PORT}} app:app
+ExecStart={{WORKING_DIRECTORY}}/tools/run.sh
 
 # Log configuration
 StandardOutput=file:/var/log/ollama_proxy_app.log
