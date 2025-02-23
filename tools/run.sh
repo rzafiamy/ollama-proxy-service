@@ -43,6 +43,6 @@ fi
 
 # Start Gunicorn
 echo "🚀 Starting Gunicorn with $WORKERS workers on port $PORT..."
-gunicorn -w "$WORKERS" -b 0.0.0.0:"$PORT" --pid "$PID_FILE" "$APP_MODULE"
+gunicorn -w "$WORKERS" -b 0.0.0.0:"$PORT" --timeout 500 --error-logfile "$APP_MODULE" 
 
 echo "✅ Flask app running on http://localhost:$PORT"
