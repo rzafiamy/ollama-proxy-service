@@ -5,6 +5,7 @@ from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_cors import CORS
 import config
+from core.monitor import monitor_db
 
 # Configure logging
 logging.basicConfig(
@@ -45,6 +46,14 @@ def proxy(provider, path):
 
     provider_info = config.LLM_PROVIDERS[provider]
     url = f"{provider_info['base_url']}/{path}"
+
+     # Extract user details from headers
+    user_email = request.headers.get("X-OpenWebUI-User-Email", "unknown@infodev.ovh")
+    user_id = request.headers.get("X-OpenWebUI-User-Id", "unknown")
+
+    # ✅ Log request to monitoring database
+    monitor_db.log_request(endpoint=path, provider=provider, user_email=user_email, user_id=user_id)
+
 
     # Define headers to exclude (from config)
     excluded_headers = getattr(config, "EXCLUDED_HEADERS", [
