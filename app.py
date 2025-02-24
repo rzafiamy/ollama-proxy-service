@@ -46,16 +46,39 @@ def proxy(provider, path):
     provider_info = config.LLM_PROVIDERS[provider]
     url = f"{provider_info['base_url']}/{path}"
 
-    headers = {key: value for key, value in request.headers if key.lower() != 'host'}
-    if provider_info["api_key"]:
-        headers["Authorization"] = f"Bearer {provider_info['api_key']}"  # Add API key if required
+    # Define headers to exclude (from config)
+    excluded_headers = getattr(config, "EXCLUDED_HEADERS", [
+        "X-OpenWebUI-User-Name",
+        "X-OpenWebUI-User-Id",
+        "X-OpenWebUI-User-Email",
+        "X-OpenWebUI-User-Role"
+    ])
+
+    # Filter out excluded headers
+    headers = {
+        key: value for key, value in request.headers.items()
+        if key.lower() not in {h.lower() for h in excluded_headers} and key.lower() != 'host'
+    }
+
+    # Add API key if required
+    if provider_info.get("api_key"):
+        headers["Authorization"] = f"Bearer {provider_info['api_key']}"
+
+    # Add x-api-key if required
+    if provider_info.get("x_api_key"):
+        headers["x-api-key"] = provider_info['x_api_key']
+
+    # Add custom headers from provider_info
+    if "headers" in provider_info:
+        headers.update(provider_info["headers"])
 
     app.logger.debug(f"Forwarding request to {url} with headers: {headers}")
 
     # ✅ Ensure no body is sent for GET requests
     data = request.get_data() if request.method in ["POST", "PUT"] else None
     req = requests.Request(
-        request.method, url, headers=headers, json=request.json if request.method in ["POST", "PUT"] else None,
+        request.method, url, headers=headers,
+        json=request.json if request.method in ["POST", "PUT"] else None,
         params=request.args, data=data
     )
 
@@ -78,11 +101,7 @@ def proxy(provider, path):
         finally:
             resp.close()
 
-    excluded_headers = ['content-encoding', 'content-length', 'transfer-encoding', 'connection']
-    headers = [(name, value) for name, value in resp.headers.items() if name.lower() not in excluded_headers]
+    excluded_response_headers = ['content-encoding', 'content-length', 'transfer-encoding', 'connection']
+    headers = [(name, value) for name, value in resp.headers.items() if name.lower() not in excluded_response_headers]
 
     return Response(generate(), status=resp.status_code, headers=headers)
-
-#if __name__ == '__main__':
-#    app.logger.info("Starting Flask app...")
-#    app.run(host="0.0.0.0", port=11433, debug=False)

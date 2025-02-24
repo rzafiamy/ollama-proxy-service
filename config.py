@@ -23,6 +23,13 @@ DEFAULT_PORT = config_data.get("default_port", 11433)
 DEFAULT_RATE_LIMIT = config_data.get("default_rate_limit", "1000 per hour")
 RATE_LIMIT = config_data.get("rate_limit", "100 per minute")
 
+EXCLUDED_HEADERS = [
+    "X-OpenWebUI-User-Name",
+    "X-OpenWebUI-User-Id",
+    "X-OpenWebUI-User-Email",
+    "X-OpenWebUI-User-Role"
+]
+
 
 # Load LLM Providers
 LLM_PROVIDERS = config_data.get("llm_providers", {})
@@ -34,3 +41,4 @@ for provider, details in LLM_PROVIDERS.items():
         details["api_key"] = env_api_key
     else:
         details["api_key"] = None
+

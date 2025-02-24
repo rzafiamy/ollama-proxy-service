@@ -34,3 +34,15 @@ llm_providers:
     base_url: "https://openrouter.ai/api"
     headers:
       Content-Type: "application/json"
+
+  gemini:
+    base_url: "https://generativelanguage.googleapis.com/v1beta/openai"
+    headers:
+      Content-Type: "application/json"
+
+  anthropic:
+    base_url: "https://api.anthropic.com"
+    x_api_key: True
+    headers:
+      Content-Type: "application/json"
+      anthropic-version: "2023-06-01"
