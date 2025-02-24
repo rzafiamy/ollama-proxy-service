@@ -66,7 +66,7 @@ def proxy(provider, path):
 
     # Add x-api-key if required
     if provider_info.get("x_api_key"):
-        headers["x-api-key"] = provider_info['x_api_key']
+        headers["x-api-key"] = provider_info['api_key']
 
     # Add custom headers from provider_info
     if "headers" in provider_info:
