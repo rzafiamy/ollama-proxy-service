@@ -189,6 +189,19 @@ chmod +x tools/ollama_update.sh
 bash tools/ollama_update.sh
 ```
 
+## Supported provider
+
+- OpenAI
+- Groq
+- Mistral
+- Cerebras
+- Gemini
+- DeepSeek
+- Openrouter
+- Infodev
+
+* All openai compatible APIs are supported.
+
 ## API Documentation
 -------------------
 
