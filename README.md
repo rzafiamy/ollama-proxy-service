@@ -6,6 +6,8 @@ This repository showcases how to protect your Ollama instance using Flask, Flask
 
 This application uses GUNICORN as the WSGI server, providing a robust and scalable environment for running your Ollama service.
 
+![Ollama Proxy Service](docs/Proxy.png)
+
 ### Features
 
 - **🔑 API Key Protection with Flask**: Ensure only authorized access by requiring a valid API key for each request.
