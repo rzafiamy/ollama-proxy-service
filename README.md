@@ -16,7 +16,7 @@ This application uses GUNICORN as the WSGI server, providing a robust and scalab
 - **🔒 Environment and Dependency Isolation with Virtual Environments**: Run your application within a controlled environment to prevent conflicts and ensure consistency.
 - **⚙️ Automated Setup and Deployment Scripts**: Simplify the setup process and manage your application more efficiently with automation scripts.
 - **🛡️ Secure Configuration Management**: Protect sensitive configuration settings from exposure and manage them securely.
-
+- **🌐 Realtime Monitoring**: Monitor your API's performance in real-time to detect issues early. 
 
 ### Table of Contents
 
@@ -228,6 +228,21 @@ Use the following URL in Open-webUI configuration and paste the PROXY_API_KEY:
 
 ```bash
    https://myserver.ltd/proxy/<provider>/v1
+```
+
+### How to Display monitoring data in CLI
+
+`cli.py` utility can be used to display monitoring data in CLI:
+
+```bash
+(.pyenv) python cli.py --show
+
++---------------------+---------------------+----------+---------------------+---------+
+| Timestamp           | Endpoint            | Provider | User Email          | User ID |
++---------------------+---------------------+----------+---------------------+---------+
+| 2025-02-24 22:00:07 | v1/chat/completions | groq     | unknown@example.com | unknown |
++---------------------+---------------------+----------+---------------------+---------+
+
 ```
 
 ## Troubleshooting
